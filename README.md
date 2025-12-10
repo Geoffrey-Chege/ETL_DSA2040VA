@@ -1,210 +1,111 @@
-```{=html}
-<!-- Visual & Modern README -->
+# ETL Practice — Sales Data (MySQL + Python/Jupyter + XAMPP)
+
+This project implements a full **ETL (Extract–Transform–Load)** workflow using a sample `sales.csv` file, Python (Jupyter), and a MySQL database hosted via XAMPP.
+
+The steps include **reading**, **cleaning**, **normalizing**, **loading** into MySQL, and **verifying** the final dataset.
+
+---
+
+## 1. Project Workflow Overview
+
+### Extract (Read `sales.csv`)
+- Load the CSV using safe encoding fallbacks and confirm shape/columns.
+
+### Transform (Clean, Integrate, Enrich)
+- Perform data type corrections  
+- Drop duplicates  
+- Parse dates  
+- Convert numeric fields  
+- Trim whitespace  
+- Normalize the dataset into logical tables:  
+  - `Customers`  
+  - `Products`  
+  - `Orders`  
+  - `OrderDetails`
+
+### Load (Store into MySQL/XAMPP)
+- Use the SQL Schema Block to create the normalized MySQL database (`sales_db`) in phpMyAdmin.  
+- In the notebook:  
+  - Connect to MySQL  
+  - Insert Customers & Products  
+  - Retrieve and map generated primary keys  
+  - Insert Orders & OrderDetails while maintaining referential integrity  
+
+### Verification
+- Validate row counts, joins, top-selling products, and foreign key consistency using verification queries.
+
+---
+
+## 2. File Structure
+
 ```
-```{=html}
-<p align="center">
-```
-`<img src="https://img.icons8.com/?size=100&id=90572&format=png&color=000000" width="120"/>`{=html}
-```{=html}
-</p>
-```
-```{=html}
-<h1 align="center">
-```
-📦 E-Commerce Sales ETL Pipeline
-```{=html}
-</h1>
-```
-```{=html}
-<p align="center">
-```
-`<b>`{=html}DSA2040VA --- Data Analytics
-Coursework`</b>`{=html}`<br>`{=html} `<b>`{=html}Author:`</b>`{=html}
-Geoffrey C. Mwangi
-```{=html}
-</p>
-```
-
-------------------------------------------------------------------------
-
-## 🎯 **Project Purpose**
-
-Turn raw sales CSV data into a clean, structured MySQL database using a
-real-world **ETL pipeline**:
-
-```{=html}
-<p align="center">
-```
-`<img src="https://img.icons8.com/?size=100&id=82769&format=png&color=000000" width="70"/>`{=html}
-➜
-`<img src="https://img.icons8.com/?size=100&id=108784&format=png&color=000000" width="70"/>`{=html}
-➜
-`<img src="https://img.icons8.com/?size=100&id=13665&format=png&color=000000" width="70"/>`{=html}
-```{=html}
-</p>
-```
-**Extract → Transform → Load**
-
-------------------------------------------------------------------------
-
-## 🗂️ **Folder Structure Overview**
-
-    📁 ETL_DSA2040VA/
-    │
-    ├── 📁 data/
-    │     └── sales.csv
-    │
-    ├── 📁 etl/
-    │     ├── extract.py
-    │     ├── transform.py
-    │     ├── load.py
-    │     └── etl.py
-    │
-    ├── 📁 notebooks/
-    │     └── analysis.ipynb
-    │
-    └── README.md
-
-------------------------------------------------------------------------
-
-## ⚙️ **ETL Workflow Overview**
-
-### 🔵 1. **Extract**
-
-```{=html}
-<p align="center">
-```
-`<img src="https://img.icons8.com/?size=100&id=23107&format=png&color=000000" width="80"/>`{=html}
-```{=html}
-</p>
-```
--   Auto-detect CSV encoding\
--   Loads data using Pandas\
--   Reports rows, columns, missing values
-
-------------------------------------------------------------------------
-
-### 🟡 2. **Transform**
-
-```{=html}
-<p align="center">
-```
-`<img src="https://img.icons8.com/?size=100&id=82769&format=png&color=000000" width="80"/>`{=html}
-```{=html}
-</p>
-```
-Includes:
-
-✔ Cleaning text fields\
-✔ Fixing dates\
-✔ Standardizing numeric columns\
-✔ Removing duplicates\
-✔ Feature creation:\
-- `order_year`\
-- `order_month`\
-- `revenue_per_unit`
-
-------------------------------------------------------------------------
-
-### 🟢 3. **Load**
-
-```{=html}
-<p align="center">
-```
-`<img src="https://img.icons8.com/?size=100&id=13665&format=png&color=000000" width="80"/>`{=html}
-```{=html}
-</p>
-```
--   Loads cleaned data into MySQL/MariaDB\
--   Uses SQLAlchemy\
--   Builds table: **fact_sales**\
--   Enforces schema & key constraints
-
-------------------------------------------------------------------------
-
-## 🗄️ **Database Schema (Visual)**
-
-    ┌───────────────────────┐
-    │      fact_sales        │
-    ├───────────────────────┤
-    │ orderNumber (PK)       │
-    │ orderDate              │
-    │ quantityOrdered        │
-    │ priceEach              │
-    │ sales                  │
-    │ status                 │
-    │ productCode            │
-    │ customerNumber         │
-    │ order_year             │
-    │ order_month            │
-    └───────────────────────┘
-
-------------------------------------------------------------------------
-
-## 🚀 **How to Run the Project**
-
-### **1. Install Requirements**
-
-``` bash
-pip install -r requirements.txt
+📁 project-root
+│── README.md
+│── sales.csv
+└── etl_sales.ipynb        # Jupyter notebook with all ETL steps
 ```
 
-### **2. Configure MySQL (XAMPP)**
+---
 
-Edit inside `etl/load.py`:
+## 3. Quick Start Guide (Full Runnable Checklist)
 
-    HOST     = "localhost"
-    USER     = "root"
-    PASSWORD = ""
-    DATABASE = "sales_dw"
+### Prerequisites
+- XAMPP installed and running (MySQL service ON)
+- VS Code with Jupyter extension
+- Python 3.10.11 + the following libraries:
+  ```
+  pandas
+  mysql-connector-python
+  numpy
+  ```
 
-### **3. Run Complete ETL**
+---
 
-``` bash
-python etl/etl.py
-```
+## 4. Execution Steps (Run in Exact Order)
 
-### **4. Launch Jupyter Notebook**
+### Step 1 — Start MySQL
+1. Open **XAMPP Control Panel**
+2. Start **MySQL**
 
-``` bash
-jupyter notebook notebooks/analysis.ipynb
-```
+---
 
-------------------------------------------------------------------------
+### Step 2 — Extract & Transform
+1. Open **VS Code → Jupyter Notebook**
+2. Place the notebook in the same folder as `sales.csv`
+3. Run all **Extraction**, **Cleaning**, and **Normalization** sections.
+4. Inspect intermediate DataFrames to ensure no malformed rows.
 
-## 📊 **Example Visual Outputs**
+---
 
--   Sales trend plots\
--   Revenue per region\
--   Customer segmentation\
--   Missing value heatmaps\
--   Cleaned dataset previews
+### Step 3 — Create MySQL Schema
+1. Open **phpMyAdmin**
+2. Create database: `sales_db`
+3. Paste & execute the **SQL Schema Block**
 
-------------------------------------------------------------------------
+---
 
-## 📈 **Sample Visual: ETL Pipeline Diagram**
+### Step 4 — Load into MySQL
+1. Return to the Jupyter notebook
+2. Run all sections under **Load**
+3. Fix any errors (often missing ID mappings)
 
-        ┌────────────┐
-        │   Extract   │
-        └──────┬──────┘
-               │
-        ┌──────▼──────┐
-        │  Transform  │
-        └──────┬──────┘
-               │
-        ┌──────▼──────┐
-        │     Load     │
-        └──────────────┘
+---
 
-------------------------------------------------------------------------
+### Step 5 — Verify Load
+1. Run the **Verification** section in the notebook
+2. Execute the SQL Verification block in phpMyAdmin.
 
-## 🤝 Contributing
+---
 
-    git clone https://github.com/<username>/ETL_DSA2040VA.git
+## 5. Notes
+- All code is rerunnable; truncate tables before reloading.
+- Encoding fallback protects against malformed CSVs.
+- Normalization enforces referential integrity.
 
-------------------------------------------------------------------------
+---
 
-## 🎓 Acknowledgements
-
-This project was created for the **DSA2040VA -- Data Analytics** module,
-applying real-world ETL industry practices.
+## 6. Technologies Used
+- **Python (pandas, numpy, mysql-connector)**
+- **MySQL (XAMPP)**
+- **phpMyAdmin**
+- **Jupyter Notebook (VS Code)**
